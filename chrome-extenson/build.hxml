@@ -1,0 +1,19 @@
+-dce std
+-lib chrome-extension
+-cp src
+--each
+
+-main Background
+-D js_bg
+-js build/js/bg.js
+
+--next
+-main Popup
+-js build/js/popup.js
+
+
+--next
+-main Options
+-js build/js/options.js
+
+# [chrome app example](https://github.com/GoogleChrome/chrome-app-samples/tree/master/samples/hello-world)

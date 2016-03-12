@@ -1,0 +1,11 @@
+{
+    "APP_NAME": {
+        "message": "test"
+    },
+    "DESCRIPTION": {
+        "message": "this is a test"
+    },
+    "POPUP_TITLE": {
+        "message": "test pop"
+    }
+}

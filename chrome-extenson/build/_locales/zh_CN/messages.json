@@ -1,0 +1,11 @@
+{
+    "APP_NAME": {
+        "message": "测试"
+    },
+    "DESCRIPTION": {
+        "message": "这是一个测试用"
+    },
+    "POPUP_TITLE": {
+        "message": "弹出窗口"
+    }
+}

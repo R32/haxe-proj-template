@@ -1,0 +1,15 @@
+## haxe --wait 6001
+#--connect 6001
+#--times
+-cp src
+-main Game
+-lib heaps
+-lib castle
+-dce full
+-D resourcesPath=../assets
+--each
+
+--flash-strict
+-swf-version 11.8
+-swf-header 720:576:60:FFFFFF
+-swf bin\comp.swf

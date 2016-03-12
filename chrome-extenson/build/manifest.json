@@ -1,0 +1,28 @@
+{
+  "name": "__MSG_APP_NAME__",
+  "version": "1.0",
+  "manifest_version": 2,
+  "default_locale": "zh_CN",
+  "description": "第一个由我开发的扩展",
+  
+  "icons":{
+	//"19": "icon.png"
+  },
+  
+  "background": {
+    "scripts": ["js/bg.js"]
+	//,"persistent": false
+  },
+
+  "options_page": "options.html",
+  
+  
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html",
+    "default_title": "__MSG_POPUP_TITLE__"
+  },
+
+  "permissions": [
+  ]
+}

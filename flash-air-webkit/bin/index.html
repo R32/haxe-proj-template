@@ -1,21 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
 	<meta charset="utf-8"/>
-	<title>flash</title>
-	<meta name="description" content="" />
-	<!-- <script src="js/AIRIntrospector.js" language="JavaScript" type="text/javascript"></script> -->
-	<!-- <script src="js/AIRAliases.js" language="JavaScript" type="text/javascript"></script> -->
+	<title>hello world</title>
 	<style>
-		html, body { height:100%; overflow:hidden; }
-		body { margin:0; }
+		html, body {
+			margin:0; padding:0;border:0;
+			height: 100%;
+		}
+
+		#xroot{
+			display: -webkit-box;
+			-webkit-box-orient:vertical;
+			height: 100%;
+			font-size: 14px;
+		}
+
+		#xtop{
+			-webkit-box-flex: 1;
+			background-color: #999;
+			display: -webkit-box;
+			color: #fff;
+		}
+
+		#xbottom{
+			height: 50px;
+			background-color:#000;
+			color: #fff;
+		}
+
+		#leftSiderbar{
+			background-color:#ff4800;
+			width: 230px;
+			text-align: center;
+		}
+
+		#mainContainer{
+			background-color:#f00;
+			display: -webkit-box;
+			-webkit-box-flex: 1;
+			-webkit-box-orient:vertical;
+		}
+
+		#mainContainer div.header{
+			height: 50px;
+			background-color: #000;;
+			color:#FFF;
+			text-align: right;
+		}
+
+		#mainContainer div.content{
+			background-color: #00f;
+			-webkit-box-flex: 1;
+			overflow:hide;
+		}
 	</style>
 </head>
 <body>
-	<div id="altContent">
-		<h1>hello world!</h1>
+	<div id="xroot">
+		<div id="xtop">
+			<div id="leftSiderbar">
+				<p></p>LEFT SIDERBAR</p>
+			</div>
+			<div id="mainContainer">
+				<div class="header">HEADER</div>
+				<div class="content"></div>
+			</div>
+		</div>
+		<div id="xbottom">
+			BOTTOM
+		</div>
 	</div>
+<!--	<script src="js/AIRIntrospector.js" language="JavaScript" type="text/javascript"></script>
+	<script src="js/AIRAliases.js" language="JavaScript" type="text/javascript"></script>
+	<script src="js/AIRSourceViewer.js" language="JavaScript" type="text/javascript"></script>-->
 	<script type="text/javascript">
+		var cc = document.querySelector("#mainContainer div.content");
+		cc.textContent = window.navigator.userAgent +" [touchTime: " +(new Date().getTime());
 	</script>
 </body>
 </html>

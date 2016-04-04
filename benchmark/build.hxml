@@ -11,6 +11,9 @@
 -neko bin/req.n
 
 --next
+-lua bin/req.lua
+
+--next
 -java bin/java
 
 --next

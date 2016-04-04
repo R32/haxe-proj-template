@@ -1,19 +1,19 @@
 package;
 
 class Req{
-	
+
 	static function main() {
 		trace("-----------------" + platform() +"------------------");
-		
+
 		for(i in 0...3){
 			haxe.Timer.measure(GetInner.runA);
 			haxe.Timer.measure(GetInner.runB);
 		}
 
 	}
-	
+
 	static inline function platform(){
-		return 
+		return
 	#if js
 		"JAVASCRIT";
 	#elseif neko
@@ -28,6 +28,8 @@ class Req{
 		"JAVA";
 	#elseif php
 		"PHP";
+	#elseif lua
+		"LUA";
 	#else
 		"PYTHON";
 	#end

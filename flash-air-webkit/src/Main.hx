@@ -25,12 +25,15 @@ class Main {
 		stage = Lib.current.stage;
 		stage.scaleMode = StageScaleMode.NO_SCALE;
 		stage.align = StageAlign.TOP_LEFT;
+		stage.addEventListener(Event.RESIZE, _resize);
+		stage.addEventListener(KeyboardEvent.KEY_UP,_onKeyUp);
 		html = new HTMLLoader();
 		html.width = stage.stageWidth;
 		html.height = stage.stageHeight;
 		html.addEventListener(Event.COMPLETE, _onComplete);
 		html.load(new URLRequest("index.html"));
 		Lib.current.addChild(html);
+		Log.setColor(0xffffff);
 	}
 
 	static function _resize(evt:Event):Void{
@@ -46,11 +49,8 @@ class Main {
 	}
 
 	static function _onComplete(evt:Event):Void {
-		stage.addEventListener(Event.RESIZE, _resize);
-		stage.addEventListener(KeyboardEvent.KEY_UP,_onKeyUp);
-		Log.setColor(0xffffff);
 		html.window.console = { log: haxe.Log.trace };
-		stage.nativeWindow.visible = true;
+		if(!stage.nativeWindow.visible) stage.nativeWindow.visible = true;
 	}
 }
 

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 	<meta charset="utf-8"/>
-	<title>hello world</title>
+	<title>flash air</title>
+	<meta name="description" content="" />
 	<style>
 		html, body {
 			margin:0; padding:0;border:0;
@@ -15,14 +16,12 @@
 			height: 100%;
 			font-size: 14px;
 		}
-
 		#xtop{
 			-webkit-box-flex: 1;
 			background-color: #999;
 			display: -webkit-box;
 			color: #fff;
 		}
-
 		#xbottom{
 			height: 50px;
 			background-color:#000;
@@ -40,6 +39,7 @@
 			display: -webkit-box;
 			-webkit-box-flex: 1;
 			-webkit-box-orient:vertical;
+			/* 这里已经不需要设高为 100 了*/
 		}
 
 		#mainContainer div.header{
@@ -52,8 +52,9 @@
 		#mainContainer div.content{
 			background-color: #00f;
 			-webkit-box-flex: 1;
-			overflow:hide;
+			overflow:auto;
 		}
+
 	</style>
 </head>
 <body>
@@ -64,19 +65,22 @@
 			</div>
 			<div id="mainContainer">
 				<div class="header">HEADER</div>
-				<div class="content"></div>
+				<div class="content">
+					<!-- <div style="height: 1000px; background-color:#999">long long long</div> -->
+				</div>
 			</div>
 		</div>
 		<div id="xbottom">
 			BOTTOM
 		</div>
 	</div>
-<!--	<script src="js/AIRIntrospector.js" language="JavaScript" type="text/javascript"></script>
+	<!-- <script src="js/AIRIntrospector.js" language="JavaScript" type="text/javascript"></script>
 	<script src="js/AIRAliases.js" language="JavaScript" type="text/javascript"></script>
-	<script src="js/AIRSourceViewer.js" language="JavaScript" type="text/javascript"></script>-->
+	<script src="js/AIRSourceViewer.js" language="JavaScript" type="text/javascript"></script> -->
 	<script type="text/javascript">
 		var cc = document.querySelector("#mainContainer div.content");
-		cc.textContent = window.navigator.userAgent +" [touchTime: " +(new Date().getTime());
+		var text = document.createTextNode(window.navigator.userAgent +" [touchTime: " +(new Date().getTime()));
+		cc.insertBefore(text, cc.firstChild);
 	</script>
 </body>
 </html>

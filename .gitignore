@@ -1,1 +1,6 @@
 *.n
+*.exe
+gcc/ndll/*
+!gcc/ndll/CMakeLists.txt
+gcc/obj/
+gcc/.depend

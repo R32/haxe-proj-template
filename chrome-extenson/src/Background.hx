@@ -4,11 +4,16 @@ package;
 #if js_bg
 @:expose("bg") @:keep
 #else
-#if !macro @:build(Mt.build()) #end
-@:native("bg") extern
+@:native("bg") @:dce extern
 #end
-class Background {	
+class Background {
 	static public function main():Void{
 		trace("background");
 	}
+
+#if !js_bg
+	static inline function init(context: js.html.Window):Void {
+		untyped window.bg = context.bg;
+	}
+#end
 }

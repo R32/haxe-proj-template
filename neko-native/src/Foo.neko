@@ -1,0 +1,5 @@
+var hi = function (){
+	return "hello";
+}
+
+$exports.hi = hi;

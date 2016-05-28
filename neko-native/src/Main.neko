@@ -1,0 +1,9 @@
+var Foo = $loader.loadmodule("Foo", $loader)
+
+var sys_string = $loader.loadprim("std@sys_string", 0); // Std::System
+
+var enable_jit = $loader.loadprim("std@enable_jit", 1); // Std::Misc
+
+
+$print(Foo.hi() + " " + sys_string() + "\n");
+$print("JIT: " + enable_jit(null));

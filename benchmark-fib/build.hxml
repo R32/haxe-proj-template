@@ -1,0 +1,23 @@
+-dce full
+-cp src
+-main Ben
+--each
+-js bin/ben.js
+--next
+-swf bin/ben.swf
+--next
+-neko bin/ben.n
+--next
+-lua bin/ben.lua
+--next
+-java bin/java
+--next
+-cs bin/cs
+--next
+-php bin/php
+--next
+-lua bin/ben.lua
+--next
+-hl bin/ben.c
+--next
+-cpp bin/cpp

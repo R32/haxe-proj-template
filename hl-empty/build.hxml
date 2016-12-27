@@ -1,0 +1,4 @@
+-dce full
+-cp src
+-main App
+-hl bin/app.hl

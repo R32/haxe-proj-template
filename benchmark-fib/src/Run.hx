@@ -2,14 +2,15 @@ package;
 
 // haxe -cp src -main Run --interp
 class Run{
-	static function main(){
+	static function main() {
 		var cmd = [
-			"neko" => ["bin/ben.n"],	// neko
-			"node" => ["bin/ben.js"],	// nodejs
-			"luajit" => ["bin/ben.lua"],// luajit
-			"java" => ["-jar", "bin/java/ben.jar"],	// hxjava(java)
-			"bin/cs/bin/Ben.exe" => [],	// hxcs(c#)
-			"bin/cpp/Ben.exe" => [],	// hxcpp(cpp)
+			"neko" => ["bin/ben.n"],    // neko
+			"node" => ["bin/ben.js"],   // nodejs
+			"hl" => ["bin/ben.hl"],     // hl
+			"bin/ben.exe" => [],        // hlc
+			"bin/cpp/Ben.exe" => [],    // hxcpp
+			"bin/cs/bin/Ben" => [],    // hxcs
+			"java" => ["-jar", "bin/java/Ben.jar"], // java
 		];
 
 		for (k in cmd.keys()) {
@@ -19,7 +20,7 @@ class Run{
 			if (p.exitCode() == 0) {
 				var t1 = haxe.Timer.stamp() - t0;
 				Sys.print(p.stdout.readAll().toString());
-				Sys.print('*** from start to finish. [TIME: $t1] ***\n\n');
+				Sys.print('process x 3 - TIME: $t1\n\n');
 			} else {
 				Sys.print(p.stderr.readAll().toString());
 			}

@@ -3,21 +3,29 @@
 -main Ben
 --each
 -js bin/ben.js
---next
--swf bin/ben.swf
+
 --next
 -neko bin/ben.n
+
 --next
+-hl bin/ben.hl
+
+--next
+-D lua-jit
 -lua bin/ben.lua
+
 --next
--java bin/java
---next
--cs bin/cs
---next
--php bin/php
---next
--lua bin/ben.lua
---next
--hl bin/ben.c
+-swf bin/ben.swf
+
 --next
 -cpp bin/cpp
+
+--next
+-cs bin/cs
+
+--next
+-java bin/java
+
+--next
+-D NATIVE
+-hl bin/hlc/ben.c

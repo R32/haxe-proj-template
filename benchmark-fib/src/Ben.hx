@@ -7,37 +7,48 @@ class Ben{
 	}
 
 	static function main() {
-		trace("---------------- " + platform() + " -----------------");
-		var count:Int = 0;
+		log("------------ " + platform() + " -------------");
+		var count = 0;
 		var t0:Float;
 		var t1:Float;
 		for (i in 0...3){
 			t0 = haxe.Timer.stamp();
-			count += fib(21);
+			count += fib(36); // prevent opt
 			t1 = (haxe.Timer.stamp() - t0);
-			trace('count: $count, time: $t1');
+			log('fib(36) x 3 - time: $t1');
 		}
+		return count;         // prevent opt
+	}
+
+	static inline function log(s) {
+	#if sys
+		Sys.println(s);
+	#else
+		trace(s);
+	#end
 	}
 
 
 	static inline function platform(){
 		return
 	#if js
-		"JAVASCRIT";
+		"Nodejs";
 	#elseif neko
 		"NEKO";
 	#elseif cpp
-		"CPP";
+		"HXCPP";
 	#elseif flash
 		"FLASH";
 	#elseif cs
-		"C#";
+		"hxCS";
 	#elseif java
-		"JAVA";
+		"hxJAVA";
 	#elseif php
 		"PHP";
 	#elseif lua
-		"LUA";
+		"hxLUA";
+	#elseif (hl && NATIVE)
+		"HL/C";
 	#elseif hl
 		"HL";
 	#elseif python

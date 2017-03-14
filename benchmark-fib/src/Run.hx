@@ -20,7 +20,7 @@ class Run{
 			if (p.exitCode() == 0) {
 				var t1 = haxe.Timer.stamp() - t0;
 				Sys.print(p.stdout.readAll().toString());
-				Sys.print('process x 3 - TIME: $t1\n\n');
+				Sys.print('process - TIME: $t1\n\n');
 			} else {
 				Sys.print(p.stderr.readAll().toString());
 			}

@@ -15,7 +15,7 @@ class Ben{
 			t0 = haxe.Timer.stamp();
 			count += fib(36); // prevent opt
 			t1 = (haxe.Timer.stamp() - t0);
-			log('fib(36) x 3 - time: $t1');
+			log('fib(36) - time: $t1');
 		}
 		return count;         // prevent opt
 	}

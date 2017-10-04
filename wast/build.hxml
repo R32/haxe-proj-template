@@ -1,0 +1,8 @@
+-dce full
+-cp src
+-D analyzer-optimize
+-D nodejs
+-lib nwjs-extern
+-main Main
+-resource bin/mem.wasm@mem
+-js bin/app.js

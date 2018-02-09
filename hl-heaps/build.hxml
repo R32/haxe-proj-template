@@ -1,0 +1,7 @@
+-dce full
+-cp src
+-lib heaps
+-lib hldx
+-D old-error-format
+-main App
+-hl app.hl

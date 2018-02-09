@@ -1,0 +1,4 @@
+res/.tmp/**
+!res/.tmp/.keep
+dump
+*.hl

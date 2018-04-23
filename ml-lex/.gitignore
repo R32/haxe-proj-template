@@ -1,0 +1,7 @@
+_build
+*.byte
+*.exe
+Makefile.modules
+Makefile.dependencies
+src/lexer.ml
+src/parser.ml

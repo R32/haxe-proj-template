@@ -1,0 +1,742 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Lex",
+				"Lexer"
+			],
+			[
+				"f",
+				"from_string"
+			],
+			[
+				"Mod",
+				"MODULES"
+			],
+			[
+				"print",
+				"printf"
+			],
+			[
+				"pi",
+				"print"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"le",
+				"lex_text"
+			],
+			[
+				"lex",
+				"lexbuf"
+			],
+			[
+				"int",
+				"int_of_string"
+			],
+			[
+				"lexeme",
+				"lexeme_start"
+			],
+			[
+				"EA",
+				"EAssoc"
+			],
+			[
+				"exp",
+				"expr_def"
+			],
+			[
+				"expr",
+				"expr_def"
+			],
+			[
+				"pr",
+				"print"
+			],
+			[
+				"cm",
+				"cmo"
+			],
+			[
+				"prin",
+				"printf"
+			],
+			[
+				"error",
+				"error_msg"
+			],
+			[
+				"SRC",
+				"SRC_DIR"
+			],
+			[
+				"err",
+				"error\t type"
+			],
+			[
+				"stra",
+				"stream_junk(s: 'a stream, x: int):void\tfn - throw Invalid_argument(s)"
+			],
+			[
+				"str",
+				"stream_token(s: 'a stream, x: int):'a\tfn - throw Invalid_argument(s)"
+			],
+			[
+				"stre",
+				"stream_token(s: 'a stream, x: int):'a\tfn - throw Invalid_argument(s)"
+			],
+			[
+				"marg",
+				"margin"
+			],
+			[
+				"c",
+				"concat(sep: string, sl: string list): string"
+			],
+			[
+				"m",
+				"map('a->'b, 'a list):'b list"
+			],
+			[
+				"back",
+				"background-image"
+			],
+			[
+				"font",
+				"font-family"
+			],
+			[
+				"mar",
+				"margin"
+			],
+			[
+				"co",
+				"color"
+			],
+			[
+				"Ma",
+				"Math\t module"
+			],
+			[
+				"margin",
+				"margin-top"
+			],
+			[
+				"flo",
+				"float-left"
+			],
+			[
+				"word",
+				"word-wrap"
+			],
+			[
+				"inline",
+				"inline-block"
+			],
+			[
+				"inlin",
+				"inline-block"
+			],
+			[
+				"bakc",
+				"background-clip"
+			],
+			[
+				"oncc",
+				"onclick\tAttr"
+			],
+			[
+				"backg",
+				"background-color"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"table-row",
+				"table-row-group"
+			],
+			[
+				"table",
+				"table-cell"
+			],
+			[
+				"tab",
+				"table-row"
+			],
+			[
+				"box",
+				"box-shadow"
+			],
+			[
+				"stream",
+				"stream_junk(s: 'a stream, x: int):void\tfn - throw Invalid_argument(s)"
+			],
+			[
+				"math",
+				"match\t keyword"
+			],
+			[
+				"path",
+				"pathNew"
+			],
+			[
+				"file",
+				"file_contents(path: string): string"
+			],
+			[
+				"file_o",
+				"file_open(f: file): void"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "Makefile",
+			"settings":
+			{
+				"buffer_size": 1537,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/lexer.mll",
+			"settings":
+			{
+				"buffer_size": 947,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/parser.mly",
+			"settings":
+			{
+				"buffer_size": 1125,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/main.ml",
+			"settings":
+			{
+				"buffer_size": 979,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/globals.ml",
+			"settings":
+			{
+				"buffer_size": 57,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/ast.ml",
+			"settings":
+			{
+				"buffer_size": 754,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "Package Control: ",
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Remove Package"
+			]
+		],
+		"width": 412.0
+	},
+	"console":
+	{
+		"height": 220.0,
+		"history":
+		[
+			"clear",
+			"cls",
+			"?",
+			"help",
+			"cls",
+			"make --help",
+			"dir *.*",
+			"ls",
+			"dir",
+			"make --help",
+			"ls",
+			"import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/G/MyDoc/haxe/person/haxe-proj-template/ml-lex",
+		"/G/MyDoc/haxe/person/haxe-proj-template/ml-lex/src"
+	],
+	"file_history":
+	[
+		"/G/MyDoc/haxe/person/haxe-proj-template/ml-lex/src/lexer.ml",
+		"/E/cygwin/home/mn/.opam/4.02.3+mingw32c/lib/ocaml/lexing.mli",
+		"/G/MyDoc/haxe/person/haxe-proj-template/ml-lex/src/parser.ml",
+		"/E/cygwin/home/mn/.opam/4.02.3+mingw32c/lib/ocaml/list.mli",
+		"/E/cygwin/home/mn/.opam/4.02.3+mingw32c/lib/ocaml/lexing.ml",
+		"/G/MyDoc/haxe/person/haxe-proj-template/ml-lex/.gitignore",
+		"/G/MyDoc/haxe/person/haxe-proj-template/ml-lex/src/parser.mly",
+		"/G/MyDoc/haxe/person/haxe-proj-template/ml-lex/Makefile.modules",
+		"/G/MyDoc/blog/_posts/other/2014-09-10-some-interesting-libs.markdown",
+		"/G/MyDoc/blog/_posts/haxelib/2014-06-07-haxelib-castle.markdown",
+		"/G/MyDoc/blog/_posts/haxe/2016-12-22-hashlink.markdown",
+		"/G/MyDoc/haxe/fork/heaps_zh_wiki/H2D-CSS.md",
+		"/G/MyDoc/blog/_posts/haxe/2014-03-29-vs-as3.markdown",
+		"/G/MyDoc/blog/_posts/haxe/2014-05-08-macro.markdown",
+		"/G/MyDoc/blog/_posts/haxe/2014-05-13-tips-on-haxe.markdown",
+		"/G/MyDoc/blog/_posts/haxe/2014-07-03-javascript.markdown",
+		"/G/MyDoc/blog/_posts/haxe/2014-03-28-log-and-trace-features.markdown",
+		"/G/MyDoc/fixedmem/Makefile",
+		"/G/MyDoc/fixedmem/src/rbtree.c",
+		"/G/MyDoc/fixedmem/src/rbtree.h",
+		"/G/MyDoc/fixedmem/README.md",
+		"/G/MyDoc/fixedmem/src/rbtree_augmented.h",
+		"/G/MyDoc/haxe/fork/heaps_zh_wiki/Getting-Started.md",
+		"/G/MyDoc/haxe/fork/heaps_zh_wiki/_Sidebar.md",
+		"/G/MyDoc/haxe/fork/heaps_zh_wiki/H2D-Concepts.md",
+		"/G/MyDoc/haxe/fork/heaps_zh_wiki/Resource-Management.md",
+		"/G/MyDoc/haxe/fork/heaps_zh_wiki/Home.md",
+		"/G/MyDoc/blog/_posts/haxe/2014-03-29-vs-csharp.markdown",
+		"/G/MyDoc/blog/_posts/haxelib/2014-05-10-some-haxe-lib.markdown",
+		"/G/MyDoc/blog/_posts/haxelib/2014-05-15-about-haxe-h3d.markdown",
+		"/G/MyDoc/blog/_posts/other/2014-06-07-tools-hss.markdown",
+		"/R/xxx_0.png",
+		"/R/a/font-to-png.py",
+		"/G/MyDoc/blog/_posts/other/2014-09-07-ocaml-tutorial.markdown",
+		"/G/MyDoc/blog/_posts/other/2017-10-17-golang-notes.markdown",
+		"/G/MyDoc/blog/_posts/other/2014-11-08-some-bitcoin-development.markdown",
+		"/R/trace.log.00000000.xml",
+		"/R/WideCharToMultiByteHOOK.e",
+		"/R/trace.log.00000001.xml",
+		"/G/MyDoc/other-fork/detours/samples/echo/main.cpp",
+		"/G/MyDoc/blog/_posts/other/2017-10-17-golang-notes - 副本.markdown",
+		"/G/MyDoc/blog/_posts/haxelib/2014-11-16-hxsl.markdown",
+		"/G/MyDoc/haxe/fork/heaps_zh_wiki/Loading-FBX-Models.md",
+		"/G/MyDoc/haxe/fork/heaps_wiki/HXSL-Introduction.md",
+		"/R/x.abc",
+		"/R/hxtp/flash/dump/flash/App.dump",
+		"/R/hxtp/flash/src/App.hx",
+		"/R/hxtp/flash/build.hxml",
+		"/E/Program Files/subt3/Data/Packages/User/CustomPATH.sublime-settings",
+		"/E/Program Files/subt3/Data/Packages/CustomPATH/CustomPATH.sublime-settings",
+		"/R/hxtp/rust/src/foo.rs",
+		"/R/hxtp/rust/src/main.rs",
+		"/G/MyDoc/haxe/fork/hss/hss/Lexer.nml",
+		"/G/MyDoc/haxe/fork/hss/hss/Rules.nml",
+		"/D/fork/neko-master/src/core/Hashtbl.nml",
+		"/G/MyDoc/haxe/fork/hss/hss/Ast.nml",
+		"/G/MyDoc/haxe/fork/hss/hss/Main.nml",
+		"/D/fork/neko-master/src/core/Core.nml",
+		"/D/fork/neko-master/src/core/Lexer.nml",
+		"/G/MyDoc/haxe/fork/hss/hss/Parser.nml",
+		"/G/MyDoc/haxe/fork/hss/Makefile",
+		"/G/MyDoc/haxe/fork/hss/bin/some.hss",
+		"/G/MyDoc/haxe/fork/hss/bin/style.hss",
+		"/D/fork/neko-master/src/core/Buffer.nml",
+		"/G/MyDoc/haxe/fork/hss/README.md",
+		"/D/fork/neko-master/src/core/Zip.nml",
+		"/D/fork/neko-master/src/core/IO.nml",
+		"/D/fork/neko-master/src/core/LexEngine.nml",
+		"/D/fork/neko-master/src/core/String.nml",
+		"/G/MyDoc/haxe/fork/hss/Makefile - 副本",
+		"/G/MyDoc/haxe/fork/hss/bin/style.css",
+		"/G/MyDoc/haxe/fork/hss/hss/Path.nml",
+		"/D/fork/neko-master/src/core/Args.nml",
+		"/G/MyDoc/haxe/person/chlnew/dist/index.html",
+		"/G/MyDoc/haxe/person/chlnew/dist/html/forms.html",
+		"/G/MyDoc/haxe/person/chlnew/dist/html/md.html",
+		"/G/MyDoc/haxe/person/chlnew/dist/test.html",
+		"/G/MyDoc/haxe/person/chlnew/dist/html/layout.html",
+		"/G/MyDoc/haxe/person/chlnew/dist/md.html",
+		"/R/docs.css",
+		"/D/fork/bootstrap/ie8/README.md",
+		"/D/fork/bootstrap/ie8/Makefile",
+		"/D/fork/bootstrap/ie8/bootstrap-pick.css",
+		"/D/fork/bootstrap/ie8/bootstrap-pick.scss",
+		"/D/fork/bootstrap/ie8/tools/App.hx",
+		"/D/fork/bootstrap/ie8/_custom.scss",
+		"/D/fork/bootstrap/ie8/bootstrap.css",
+		"/D/fork/bootstrap/scss/_button-group.scss",
+		"/D/fork/bootstrap/scss/_carousel.scss",
+		"/D/fork/bootstrap/scss/_custom-forms.scss",
+		"/D/fork/bootstrap/scss/_dropdown.scss",
+		"/D/fork/bootstrap/scss/_popover.scss",
+		"/D/fork/bootstrap/scss/_print.scss",
+		"/D/fork/bootstrap/scss/_reboot.scss",
+		"/D/fork/bootstrap/scss/_type.scss",
+		"/D/fork/bootstrap/scss/bootstrap-grid.scss",
+		"/D/fork/bootstrap/scss/mixins/_clearfix.scss",
+		"/D/fork/bootstrap/scss/_breadcrumb.scss",
+		"/D/fork/bootstrap/scss/_variables.scss",
+		"/D/fork/bootstrap/scss/_custom.scss",
+		"/D/fork/bootstrap/scss/_tooltip.scss",
+		"/D/fork/bootstrap/scss/_responsive-embed.scss",
+		"/D/fork/bootstrap/scss/bootstrap-reboot.scss",
+		"/G/MyDoc/haxe/person/chlnew/dist/libs/Makefile",
+		"/R/bootstrap/bs/scss/_dropdown.scss",
+		"/R/bootstrap/bs/scss/bootstrap-reboot.scss",
+		"/R/bootstrap/bs/scss/_card.scss",
+		"/R/bootstrap/bs/scss/_grid.scss",
+		"/R/bootstrap/bs/scss/_forms.scss",
+		"/E/Program Files/subt3/Data/Packages/nml/neko-nml.sublime-syntax",
+		"/D/fork/neko-master/src/core/List.nml",
+		"/D/fork/neko-master/libs/std/file.c",
+		"/G/MyDoc/haxe/fork/hss/bin/A.hss",
+		"/G/MyDoc/haxe/fork/hss/bin/C.hss",
+		"/G/MyDoc/haxe/fork/hss/bin/reset.css",
+		"/G/MyDoc/haxe/fork/hss/bin/B.hss",
+		"/G/MyDoc/haxe/fork/hss/bin/A.css",
+		"/G/MyDoc/haxe/fork/hss/bin/vars.hss",
+		"/D/fork/neko-master/src/core/Sys.nml",
+		"/G/MyDoc/haxe/fork/hss/bin/D.css",
+		"/G/MyDoc/haxe/fork/hss/bin/vars",
+		"/D/fork/neko-master/libs/std/sys.c",
+		"/D/fork/neko-master/src/core/Map.nml",
+		"/R/hxtp/nml/Core.neko",
+		"/R/hxtp/nml/Array.neko",
+		"/R/hxtp/nml/Makefile",
+		"/G/MyDoc/haxe/fork/hss/bin/ss.css",
+		"/G/MyDoc/haxe/fork/hss/bin/less.css"
+	],
+	"find":
+	{
+		"height": 26.0
+	},
+	"find_in_files":
+	{
+		"height": 104.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"s",
+			"max",
+			"min",
+			"add",
+			"s_value_def",
+			"__ocaml_lex_state",
+			"201",
+			"diff",
+			"write",
+			"M_DEPENDS",
+			"M_MODULES"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "Makefile",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1537,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1335,
+								1335
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Makefile/Makefile.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 702.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/lexer.mll",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 947,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								499,
+								499
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/OCaml/OCamllex.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 348.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/parser.mly",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1125,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								496,
+								496
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/OCaml/OCamlyacc.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 266.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/main.ml",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 979,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								171,
+								171
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/OCaml/OCaml.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/globals.ml",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 57,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								41,
+								41
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/OCaml/OCaml.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "src/ast.ml",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 754,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								327,
+								327
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/OCaml/OCaml.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 378.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 38.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "proj.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 202.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

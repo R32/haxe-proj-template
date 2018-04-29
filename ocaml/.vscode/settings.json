@@ -1,7 +1,6 @@
 {
 	"files.associations": {
-		"*.mly": "ocaml",
-		"*.ml": "ocaml"
+		"*.ml": "ocaml",
 	},
 	"[ocaml]": {
 		"editor.tabSize": 4

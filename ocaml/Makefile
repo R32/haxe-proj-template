@@ -13,8 +13,8 @@ endif
 TARGET    := hi.$(TARGET_EXT)
 OBJ_DIR   := _build
 SRC_DIR   := src
-MLFILES   := $(wildcard $(SRC_DIR)/*.ml)
-
+LEX_YACC  := $(SRC_DIR)/lexer.ml $(SRC_DIR)/parser.ml
+MLFILES   := $(wildcard $(SRC_DIR)/*.ml) $(LEX_YACC)
 CAML_LIBS :=
 OPAM_LIBS :=
 FIND_LIBS := $(CAML_LIBS) $(OPAM_LIBS)
@@ -25,28 +25,31 @@ ALL_FLAGS := -bin-annot -safe-string $(FIND_PACK)
 MK_MODULES:= Makefile.modules
 MK_DEPENDS:= Makefile.dependencies
 
+#
 all: $(OBJ_DIR) $(TARGET)
 	./$(TARGET) "2*(3+4)+5*1" "1+2*3"
 
 depends: $(MK_MODULES) $(MK_DEPENDS)
 
 clean:
-	rm -rf $(TARGET) $(MK_MODULES) $(MK_DEPENDS) $(OBJ_DIR)/**
+	rm -rf $(TARGET) $(LEX_YACC) $(MK_MODULES) $(MK_DEPENDS) $(OBJ_DIR)/**
 
 .PHONY: clean
 
-$(MK_MODULES): #$(MLFILES)
+$(MK_MODULES): $(MLFILES)
 	@printf "MODULES = " > $@
 	ocamlfind ocamldep -slash -sort -I $(SRC_DIR) $(MLFILES) | sed -e "s/$(SRC_DIR)\///g" | sed -e "s/\.ml//g" >> $@
 
-$(MK_DEPENDS): #$(MLFILES)
+$(MK_DEPENDS): $(MLFILES)
 	ocamlfind ocamldep -slash -I $(SRC_DIR) $(MLFILES) | sed -e "s/$(SRC_DIR)/$(OBJ_DIR)/g" > $@
 
-MODULES   := globals ast lexer parser main
-# -include $(MK_MODULES)
-# MODULES += lexer parser
-# Dependencies
--include $(MK_DEPENDS)
+ifeq ($(DEPS),1)
+# Auto Calc Dependencies if: make DEPS=1
+  -include $(MK_MODULES)
+  -include $(MK_DEPENDS)
+else
+  MODULES := globals ast lexer parser main
+endif
 
 $(OBJ_DIR):
 	@mkdir -p $@

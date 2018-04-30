@@ -7,7 +7,7 @@ let value s =
 	Parser.value stk
 
 let error msg p =
-	printf "%d-%d: %s\n" p.pmin p.pmax msg;
+	printf "error pos: %d-%d: %s\n" p.pmin p.pmax msg;
 	exit(-1)
 
 let () =

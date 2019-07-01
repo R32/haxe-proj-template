@@ -1,0 +1,11 @@
+/* chokidar subs/*.hss style.hss -c "hss -o ../bin -D ie8 style.hss" */
+@import("subs/_vars");
+@import("subs/normalize")
+
+
+/* main */
+body {
+	background: $bg-color;
+	color: $text-color;
+	font-size: $font-size;
+}

@@ -1,5 +1,6 @@
 *.n
 *.exe
+*.swf
 gcc/ndll/*
 !gcc/ndll/CMakeLists.txt
 gcc/obj/

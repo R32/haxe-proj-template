@@ -1,0 +1,8 @@
+-dce full
+-cp src
+-D analyzer-optimize
+-D old-error-format
+
+--resource bin/bin.wasm@bin.wasm
+-main Main
+-js bin/app.js

@@ -1,5 +1,5 @@
 #
-WASM_ROOT := /cygdrive/e/SDKS/wasm
+WASM_ROOT ?= /cygdrive/e/SDKS/wasm
 CC        := $(WASM_ROOT)/clang
 CXX       := $(WASM_ROOT)/clang -x c++
 LD        := $(WASM_ROOT)/wasm-ld
@@ -25,11 +25,10 @@ WASM      := $(OUTDIR)/bin.wasm
 JS        := $(OUTDIR)/app.js
 
 # Flags for wasm-ld. 
-
-LDFLAGS   += --no-entry --allow-undefined 
-LDFLAGS   += --export=malloc --export=free
-LDFLAGS   += $(addprefix --export=,$(patsubst _%,%,$(strip $(EXPORTS))))
-
+LDFLAGS   += --no-entry --lto-O3
+# LDFLAGS   += --import-memory
+# LDFLAGS   += --export-all --allow-undefined
+LDFLAGS   += $(addprefix --export=, $(EXPORTS))
 
 all: $(OBJDIR) $(JS)
 
@@ -60,7 +59,7 @@ clean:
 CCFLAGS     := -Ofast -std=c99
 
 # Global compiler flags for Wasm targeting
-CLANGFLAGS  := -target wasm32 -nostdinc++
+CLANGFLAGS  := -target wasm32 -nostdinc++ -flto
 CLANGFLAGS  += -D__EMSCRIPTEN__ -D_LIBCPP_ABI_VERSION=2
 CLANGFLAGS  += -fvisibility=hidden -fno-builtin -fno-exceptions -fno-threadsafe-statics
 

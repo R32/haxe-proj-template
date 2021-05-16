@@ -1,7 +1,16 @@
+-dce full
 -cp src
--main Wave
+-main App
+-D analyzer-optimize
+-D old-error-format
+
+--each
 
 -swf-header 600:400:10:000000
 --flash-strict
 -swf-version 10.3
 -swf bin/wave.swf
+
+--next
+
+--js bin/wave.js

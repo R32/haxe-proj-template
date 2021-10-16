@@ -1,5 +1,0 @@
--dce full
--cp src
--D analyzer-optimize
--main Main
--js bin/main.js

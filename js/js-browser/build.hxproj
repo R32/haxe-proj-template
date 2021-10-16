@@ -4,13 +4,13 @@
   <output>
     <movie outputType="Application" />
     <movie input="" />
-    <movie path="bin\jss.js" />
+    <movie path="build.hxml" />
     <movie fps="0" />
     <movie width="0" />
     <movie height="0" />
-    <movie version="1" />
+    <movie version="0" />
     <movie minorVersion="0" />
-    <movie platform="JavaScript" />
+    <movie platform="hxml" />
     <movie background="#FFFFFF" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
@@ -19,12 +19,12 @@
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="" />
+    <option directives="analyzer-optimize&#xA;js-es=6" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
     <option mainClass="Main" />
     <option enabledebug="False" />
-    <option additional="" />
+    <option additional="-dce full&#xA;--macro exclude('haxe.iterators.ArrayIterator')" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>
@@ -36,7 +36,7 @@
   </compileTargets>
   <!-- Paths to exclude from the Project Explorer tree -->
   <hiddenPaths>
-    <!-- example: <hidden path="..." /> -->
+    <hidden path="obj" />
   </hiddenPaths>
   <!-- Executed before build -->
   <preBuildCommand />
@@ -45,7 +45,7 @@
   <!-- Other project options -->
   <options>
     <option showHiddenPaths="False" />
-    <option testMovie="Webserver" />
+    <option testMovie="OpenDocument" />
     <option testMovieCommand="bin/index.html" />
   </options>
   <!-- Plugin storage -->

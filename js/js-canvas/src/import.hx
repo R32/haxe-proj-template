@@ -1,15 +1,16 @@
 #if js
 
-import js.html.DOMElement;
+import js.html.Event;
 import js.html.MouseEvent;
+import js.html.KeyboardEvent;
+import js.html.KeyboardEvent as K;
+import js.html.DOMElement;
 import js.html.CanvasElement;
 import js.html.CanvasRenderingContext2D;
 
-import js.html.KeyboardEvent;
-import js.html.KeyboardEvent as K;
-
 import Macros.text;
 
+import Globals.PI;
 // canvas size
 import Globals.APP_HEIGHT;
 import Globals.APP_WIDTH;
@@ -32,5 +33,6 @@ import Globals.performance;
 
 import Utils.lerp;
 import Utils.toFixed;
+import Utils.microsec;
 
 #end

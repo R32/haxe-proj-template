@@ -2,6 +2,11 @@ package;
 
 
 class Utils {
+
+	public static inline function microsec( f : Float ) : Float {
+		return f * 1000;
+	}
+
 	public static function lerp( start : Int, end : Int, t : Float ) : Float {
 		return start + t * (end - start);
 	}

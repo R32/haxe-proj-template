@@ -1,16 +1,10 @@
 package;
 
-import Macros.evalint;
-import Macros.eval;
-
-@:nullSafety
 class Main {
 
-	var elapsed : Float;
-	var then : Float;
+	var timer : Timer;
 	var g2d : CanvasRenderingContext2D;
 	var balls : Array<Ball>;
-
 	var scaleX : Float;
 	var scaleY : Float;
 
@@ -23,12 +17,11 @@ class Main {
 		canvas.setAttribute("width", "" + APP_WIDTH);
 		canvas.setAttribute("height", "" + APP_HEIGHT);
 		// init
-		this.then = 0;
-		this.elapsed = 0;
 		this.scaleX = 1.0;
 		this.scaleY = 1.0;
 		this.balls = [];
 		this.g2d = canvas.getContext2d();
+		this.timer = new Timer(running);
 		g2d.fillStyle = "black";
 		g2d.strokeStyle = "rgba(255, 255, 255)";
 		g2d.font = "8pt consolas normal";
@@ -42,69 +35,62 @@ class Main {
 			balls.push(new Ball(e.offsetX * scaleX , e.offsetY * scaleY));
 		}
 		window.onresize = function() {
-			var canvas = this.g2d.canvas;
-			var rect = canvas.getBoundingClientRect();
+			var rect = this.g2d.canvas.getBoundingClientRect();
 			this.scaleX = APP_WIDTH / rect.width;
 			this.scaleY = APP_HEIGHT / rect.height;
 		};
 		window.onresize();
 	}
 
-	function run( now : Float ) {
-		window.requestAnimationFrame(run);
-		this.elapsed = now - then;
-		if (this.elapsed < FPS_INTERVAL)
-			return;
-		var tmod = this.elapsed / FPS_INTERVAL;
-		this.then = now;
+	function running( tmod : Float ) {
 		var g2d = this.g2d;
 		g2d.clearRect(0, 0, APP_WIDTH, APP_HEIGHT);
 		g2d.fillRect(0, 0, APP_WIDTH, APP_HEIGHT);
-		g2d.strokeText("FPS: " + toFixed(1000 / elapsed, 2) , 2, 12);
-		// g2d.strokeText("TF  : " + tmod, 2, 26);
+		g2d.strokeText("FPS: " + toFixed(tmod * FPS_WANTED, 2) , 2, 12);
 		for (b in balls) {
 			b.update(g2d, tmod);
 		}
 	}
 
-	inline function start() {
-		then = performance.now();
-		window.requestAnimationFrame(run);
-	}
-
 	static function main() {
 		var main = new Main();
-		main.start();
+		main.timer.start();
 	}
 }
 
 class Ball {
 	public var x(default, null) : Float;
 	public var y(default, null) : Float;
+	var radian : Float;
+	var dirX : Float;
 	var dirY : Float;
 	public function new( x, y ) {
 		this.x = x;
 		this.y = y;
-		dirY = 1.0;
+		radian = 0.;
+		dirX = 1.;
+		dirY = 1.;
 	}
 
 	public function draw( g2d : CanvasRenderingContext2D ) {
 		g2d.beginPath();
-		g2d.arc(this.x, this.y, CR , 0, 2 * Math.PI);
+		g2d.arc(this.x, this.y,  1 , radian, 2 * Math.PI + radian);
+		g2d.arc(this.x, this.y, CR , radian, 2 * Math.PI + radian);
 		g2d.closePath();
 		g2d.stroke();
 	}
 
 	public function update( g2d : CanvasRenderingContext2D, tmod : Float ) {
 		inline draw(g2d);
+		// 45ANG/SEC
+		this.radian += tmod * ((PI / 180 * 45 * FPS_INTERVAL));
 		if (this.y >= (APP_HEIGHT - CR)) {
 			this.y = (APP_HEIGHT - CR);
+			return;
 			dirY = -1.0;
-		} else if (this.y <= CR) {
-			this.y = CR;
-			dirY = 1.0;
 		}
-		this.y += dirY * tmod * ( PIXELS_PER_METER * GRAVITY_FORCE / FPS_WANTED );
+		// 9.81M/SEC
+		this.y += dirY * tmod * ( PIXELS_PER_METER * GRAVITY_FORCE * FPS_INTERVAL);
 	}
 
 	static inline var CR = 20;

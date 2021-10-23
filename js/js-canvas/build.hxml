@@ -2,7 +2,11 @@
 -cp src
 -D analyzer-optimize
 -D js-es=6
+#-D FPS60
+
 ### hack for js
 --macro exclude('haxe.iterators.ArrayIterator')
+
+--macro nullSafety('Main')
 -main Main
 --js bin/main.js

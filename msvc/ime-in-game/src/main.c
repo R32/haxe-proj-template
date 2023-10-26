@@ -141,7 +141,16 @@ static void ime_paint_composition(struct imetag *imet, HWND hwnd, HDC hdc)
 	HBRUSH gray = GetStockObject(COLOR_SCROLLBAR + 1);
 	FillRect(hdc, &compst->rect, gray);
 	if (compst->state & GCS_CURSORPOS) {
-		// trace("[%d] GCS_CURSORPOS - DELTASTART : %d, CURSORPOS : %d, state : 0x%x\n", COUNT_ID(), compst->cstart, compst->cursor, compst->state);
+		WCHAR *buff = (WCHAR *)compst->buff;
+		for (int i = compst->wcslen; i > compst->cursor; i--) {
+			buff[i] = buff[i - 1];
+		}
+		if (compst->wcslen > compst->cursor) {
+			compst->wcslen++;
+			buff[compst->wcslen] = 0;
+			buff[compst->cursor] = ',';
+		}
+		//trace("[%d] GCS_CURSORPOS - DELTASTART : %d, CURSORPOS : %d, len : 0x%x\n", COUNT_ID(), compst->cstart, compst->cursor, compst->wcslen);
 	}
 	if (compst->state & GCS_RESULTSTR) {}
 	if (compst->wcslen) {
@@ -157,7 +166,7 @@ static int read_candidate(struct candidate_tag *candidate, HWND hwnd)
 	HIMC imc = ImmGetContext(hwnd);
 	// int bytes = ImmGetCandidateList(imc, index, NULL, 0);
 	int bytes = ImmGetCandidateList(imc, index, (CANDIDATELIST *)candidate->buff, sizeof(candidate->buff));
-	trace("[%d] IMN_CHANGECANDIDATE bytes : %d, index : %d\n", COUNT_ID(), bytes, index);
+	trace("[%d] buff usage : %.3fKB, total : %dKB\n", COUNT_ID(), bytes / 1024., sizeof(candidate->buff) / 1024);
 	ImmReleaseContext(hwnd, imc);
 	return bytes;
 }

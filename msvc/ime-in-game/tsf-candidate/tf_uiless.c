@@ -2,11 +2,7 @@
 #include "tf_uiless.h"
 
 // persistent
-ULONG STDMETHODCALLTYPE uiless_persist_addref(void *base)
-{
-	return 1;
-}
-ULONG STDMETHODCALLTYPE uiless_persist_release(void *base)
+ULONG STDMETHODCALLTYPE ulpersist_addref_release(void *base)
 {
 	return 1;
 }
@@ -15,6 +11,7 @@ ULONG STDMETHODCALLTYPE uiless_persist_release(void *base)
  * external vtbl
  */
 extern struct ITfUIElementSinkVtbl elementsink_vtbl; // tf_elementsink.c
+extern struct ITfLangBarEventSinkVtbl langbarevent_vtbl; // tf_langbareventsink.c
 
 HRESULT uiless_initialize(struct tf_uiless *uiless, HWND hwnd)
 {
@@ -23,13 +20,16 @@ HRESULT uiless_initialize(struct tf_uiless *uiless, HWND hwnd)
 	// itf_
 	uiless->itfmgr = NULL;
 	uiless->itfuimgr = NULL;
+	uiless->itflangmgr = NULL;
 	uiless->itfcandidate = NULL;
 	// _sink
 	uiless->element_sink.lpVtbl = &elementsink_vtbl;
+	uiless->langevent_sink.lpVtbl = &langbarevent_vtbl;
 	uiless->cookie.element = TF_INVALID_COOKIE;
+	uiless->cookie.langevent = TF_INVALID_COOKIE;
 
 	ITfSource *itfsource = NULL;
-	ITfThreadMgrEx *itfmgr = NULL;	
+	ITfThreadMgrEx *itfmgr = NULL;
 	HRESULT hr = CoCreateInstance(&CLSID_TF_ThreadMgr, NULL, CLSCTX_INPROC_SERVER, &IID_ITfThreadMgrEx, &itfmgr);
 	if (FAILED(hr)) {
 		goto cleanup;
@@ -56,6 +56,7 @@ HRESULT uiless_initialize(struct tf_uiless *uiless, HWND hwnd)
 	if (FAILED(hr)) {
 		goto cleanup;
 	}
+
 	uiless->itfmgr = itfmgr;
 	itfmgr = NULL; // prevents cleanup
 	trace("done!\n");
@@ -71,15 +72,20 @@ HRESULT uiless_release(struct tf_uiless *uiless)
 	ITfThreadMgrEx *tfmgr = uiless->itfmgr;
 
 	HRESULT hr = tfmgr->lpVtbl->QueryInterface(tfmgr, &IID_ITfSource, &tfsource);
-	if (SUCCEEDED(hr)) {
+	if (SUCCEEDED(hr) && uiless->cookie.element != TF_INVALID_COOKIE) {
 		tfsource->lpVtbl->UnadviseSink(tfsource, uiless->cookie.element);
+	}
+	if (uiless->cookie.langevent != TF_INVALID_COOKIE) {
+		uiless->itflangmgr->lpVtbl->UnadviseEventSink(uiless->itflangmgr, uiless->cookie.langevent);
 	}
 	SAFERELEASE(tfsource);
 	SAFERELEASE(uiless->itfcandidate);
+	SAFERELEASE(uiless->itflangmgr);
 	SAFERELEASE(uiless->itfuimgr);
 	SAFERELEASE(uiless->itfmgr);
 	return S_OK;
 }
+
 
 void ulflush_candidate(ITfCandidateListUIElement *itform, struct dt_candidate *data)
 {
@@ -93,7 +99,7 @@ void ulflush_candidate(ITfCandidateListUIElement *itform, struct dt_candidate *d
 	itform->lpVtbl->GetCurrentPage(itform, &data->pagecurrent);
 	itform->lpVtbl->GetSelection(itform, &data->selection);
 	itform->lpVtbl->GetPageIndex(itform, data->lists, ARRAYSIZE(data->lists), &pagecnt);
-	
+
 	offset[0] = pagecnt * (sizeof(data->lists[0]) / sizeof(data->buff[0]));
 
 	if (data->count && data->pagecurrent < pagecnt) {
@@ -101,7 +107,7 @@ void ulflush_candidate(ITfCandidateListUIElement *itform, struct dt_candidate *d
 		data->pagestart = pagelist[data->pagecurrent];
 		data->pagestop = data->pagecurrent < pagecnt - 1
 			? min(data->count, pagelist[data->pagecurrent + 1])
-			: data->count - data->pagestart;
+			: data->count;
 	} else {
 		data->pagestart = data->selection;
 		data->pagestop = min(data->selection + 9, data->count);
@@ -112,13 +118,49 @@ void ulflush_candidate(ITfCandidateListUIElement *itform, struct dt_candidate *d
 	WCHAR *src;
 	WCHAR *dst = data->buff + offset[0];
 	for (int i = data->pagestart, j = 0; i < data->pagestop; i++, j++) {
-		if (FAILED(itform->lpVtbl->GetString(itform, i, &bstr)) || !bstr)
+		if (FAILED(itform->lpVtbl->GetString(itform, i, &bstr)) || !bstr) {
 			return;
+		}
 		src = bstr;
 		while (*dst++ = *src++){
 		}
 		SysFreeString(bstr);
 		offset[j + 1] = (int)(size_t)(dst - data->buff);
 	}
-	// trace("candidate buffer usage : %.2fKB, total : %dKB\n", (int)(size_t)(dst - data->buff) * sizeof(data->buff[0]) / 1024., sizeof(data->buff) / 1024);
+	// trace("start : %d, stop : %d, count : %d, page current : %d, page count : %d, selection : %d\n", data->pagestart, data->pagestop, data->count, data->pagecurrent, pagecnt, data->selection);
+	// trace("candidate buffer usage : %.2fKB, total : %dKB\n", (int)(size_t)(dst - data->buff) * sizeof(data->buff[0]) / 1024., (int)sizeof(data->buff) / 1024);
+}
+
+static int ulflush_compositioninner(HIMC imc, DWORD kind, WCHAR *buf, int count)
+{
+	DWORD bytes = ImmGetCompositionString(imc, kind, buf, count);
+	DWORD len = (bytes + (sizeof(WCHAR) - 1)) / sizeof(WCHAR);
+	buf[len] = 0;
+	return len;
+}
+
+void ulflush_composition(struct tf_uiless *uiless, HWND hwnd, WPARAM wparam, LPARAM lparam)
+{
+	struct dt_composition *compst = &uiless->composition;
+	HIMC imc = ImmGetContext(hwnd);
+	if (lparam & GCS_CURSORPOS) {
+		// GCS_DELTASTART is the caret offset start of the last change
+			// GCS_CURSORPOS is the caret offset of current
+		compst->cstart = lparam & GCS_DELTASTART ? ImmGetCompositionString(imc, GCS_DELTASTART, NULL, 0) : -1;
+		compst->cursor = ImmGetCompositionString(imc, GCS_CURSORPOS, NULL, 0);
+	}
+	if (lparam & GCS_RESULTSTR) {
+		struct dt_result *result = &uiless->result;
+		if (result->offset >= (result->rect.right - result->rect.left) / uiless->csize.cx)
+			result->offset = 0;
+		result->offset += ulflush_compositioninner(imc, GCS_RESULTSTR, result->buff + result->offset, (int)sizeof(result->buff) - result->offset * sizeof(WCHAR));
+		InvalidateRect(hwnd, &uiless->result.rect, 0);
+		compst->wcslen = 0;
+	}
+	if (lparam & GCS_COMPSTR) {
+		compst->wcslen = ulflush_compositioninner(imc, GCS_COMPSTR, compst->buff, sizeof(compst->buff));
+	}
+	ImmReleaseContext(hwnd, imc);
+	InvalidateRect(hwnd, &compst->rect, 0);
+	compst->flags = (int)lparam;
 }

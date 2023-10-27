@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "stdio.h"
 #include "tf_uiless.h"
 
 const WCHAR appClassName[] = L"tsf-test";
@@ -9,43 +10,40 @@ static int count_id = 0;
 // Uses "%lc" for WCHAR and "%ls" for (WCHAR *)
 void trace(CHAR *format, ...)
 {
+	//static FILE *file = NULL;
+	//if (!file) fopen_s(&file, "log.txt", "wb");
 	va_list rest;
 	va_start(rest, format);
 	CHAR buff[512];
 	vsprintf_s(buff, sizeof(buff), format, rest);
 	va_end(rest);
 	OutputDebugStringA(buff);
+	//fputs(buff, file);
 }
 
 struct tf_uiless uiless = { 0 };
-/*
-static void ime_handle_composition(struct tsftag *imet, HWND hwnd, WPARAM wparam, LPARAM lparam)
-{
-	struct composition_ui *compst = &imet->composition;
-}
 
-static void ime_handle_notify(struct tsftag *imet, HWND hwnd, WPARAM wparam, LPARAM lparam)
-{
-	DWORD hr = 1;
-	switch (wparam) {
-	case IMN_CHANGECANDIDATE:
-		// Defer reading data until WM_PAINT, Because it's too frequent from IMN_CHANGECANDIDATE
-		imet->candidate.query = (int)lparam; 
-		// FALL THRU
-	case IMN_CLOSECANDIDATE:
-		InvalidateRect(hwnd, &imet->candidate.rect, 0);
-		imet->candidate.bytes = 0; // reset
-		break;
-	default:
-		break;
-	}
-}
-*/
 static void ime_paint_composition(struct tf_uiless *uiless, HWND hwnd, HDC hdc)
 {
 	struct dt_composition *compst = &uiless->composition;
 	HBRUSH gray = GetStockObject(COLOR_SCROLLBAR + 1);
 	FillRect(hdc, &compst->rect, gray);
+	if (compst->flags & GCS_CURSORPOS) {
+		WCHAR *buff = (WCHAR *)compst->buff;
+		for (int i = compst->wcslen; i > compst->cursor; i--) {
+			buff[i] = buff[i - 1];
+		}
+		if (compst->wcslen > compst->cursor) {
+			compst->wcslen++;
+			buff[compst->wcslen] = 0;
+			buff[compst->cursor] = ',';
+		}
+		//trace("[%d] GCS_CURSORPOS - DELTASTART : %d, CURSORPOS : %d, len : 0x%x\n", COUNT_ID(), compst->cstart, compst->cursor, compst->wcslen);
+	}
+	if (compst->flags & GCS_RESULTSTR) {}
+	if (compst->wcslen) {
+		TextOut(hdc, compst->rect.left, compst->rect.top, (WCHAR *)compst->buff, compst->wcslen);
+	}
 }
 
 static void ime_paint_candidate(struct tf_uiless *uiless, HWND hwnd, HDC hdc)
@@ -54,7 +52,7 @@ static void ime_paint_candidate(struct tf_uiless *uiless, HWND hwnd, HDC hdc)
 	struct dt_candidate *data = &uiless->candidate;
 	HBRUSH gray = GetStockObject(COLOR_SCROLLBAR + 1);
 	FillRect(hdc, &data->rect, gray);
-	
+
 	ulflush_candidate(itform, data);
 
 	if (!data->count)
@@ -87,6 +85,9 @@ static void ime_paint_result(struct tf_uiless *uiless, HWND hwnd, HDC hdc)
 	struct dt_result *result = &uiless->result;
 	HBRUSH gray = GetStockObject(COLOR_SCROLLBAR + 1);
 	FillRect(hdc, &result->rect, gray);
+	if (result->offset) {
+		TextOut(hdc, result->rect.left, result->rect.top, (WCHAR *)result->buff, result->offset);
+	}
 }
 
 static void ime_paint(struct tf_uiless *uiless, HWND hwnd)
@@ -99,7 +100,7 @@ static void ime_paint(struct tf_uiless *uiless, HWND hwnd)
 	EndPaint(hwnd, &ps);
 }
 
-static LRESULT CALLBACK WinProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) 
+static LRESULT CALLBACK WinProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	switch (msg) {
 	case WM_CREATE:
@@ -110,6 +111,7 @@ static LRESULT CALLBACK WinProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpara
 		ReleaseDC(hwnd, hdc);
 		//tf_setup(hwnd);
 		uiless_initialize(&uiless, hwnd);
+		ullang_enable(&uiless);
 	}
 		break;
 	case WM_DESTROY:
@@ -135,46 +137,38 @@ static LRESULT CALLBACK WinProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpara
 		lparam = 0;
 		goto defwinproc;
 		break;
-	/*
+
 	case WM_IME_STARTCOMPOSITION:
 		// trace("[%d] WM_IME_STARTCOMPOSITION - wparam : %d, lparam : 0x%x\n", COUNT_ID(), (int)wparam, (int)lparam);
 		break;
 	case WM_IME_COMPOSITION:
 		// trace("[%d] WM_IME_COMPOSITION - wparam : %d, lparam : 0x%x\n", COUNT_ID(), (int)wparam, (int)lparam);
-		//ime_handle_composition(&tsft, hwnd, wparam, lparam);
-		break;	
+		ulflush_composition(&uiless, hwnd, wparam, lparam);
+		break;
 	case WM_IME_ENDCOMPOSITION:
 		// trace("[%d] WM_IME_ENDCOMPOSITION - wparam : %d, lparam : 0x%x\n", COUNT_ID(), (int)wparam, (int)lparam);
 		break;
 	case WM_CHAR:
 	{
-		struct result_tag *result = &tsft.result;
+		struct dt_result *result = &uiless.result;
 		if (wparam == VK_BACK) {
 			if (result->offset)
 				result->offset--;
 		} else {
-			if (result->offset >= (result->rect.right - result->rect.left) / tsft.csize.cx)
+			if (result->offset >= (result->rect.right - result->rect.left) / uiless.csize.cx)
 				result->offset = 0;
 			result->buff[result->offset++] = (WCHAR)wparam;
-		}		
+		}
 		InvalidateRect(hwnd, &result->rect, 0);
 	}
 		break;
 	case WM_IME_NOTIFY:
-		switch (wparam) {
-		case IMN_OPENCANDIDATE:
-			trace("IMN_OPENCANDIDATE\n");
-			break;
-		case IMN_CHANGECANDIDATE:
-			trace("IMN_CHANGECANDIDATE\n");
-			break;
-		case IMN_CLOSECANDIDATE:
-			trace("IMN_CLOSECANDIDATE\n");
-			break;
-		}
 		break;
-	*/
 	case WM_RBUTTONUP:
+	{
+		int r = ullang_englishkbl(&uiless, GetCurrentThreadId());
+		trace("switch to english : %d\n", r == S_OK);
+	}
 		break;
 	default:
 		// trace("[%d] event : 0x%x\n", COUNT_ID(), msg);
@@ -184,7 +178,7 @@ static LRESULT CALLBACK WinProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpara
 	return 0;
 }
 
-static void MyRegisterClass(HINSTANCE hInstance) 
+static void MyRegisterClass(HINSTANCE hInstance)
 {
 	WNDCLASS wc;
 	wc.style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -200,9 +194,9 @@ static void MyRegisterClass(HINSTANCE hInstance)
 	RegisterClass(&wc);
 }
 
-int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hInstNULL, LPSTR lpszCmdLine, int nCmdShow) 
+int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hInstNULL, LPSTR lpszCmdLine, int nCmdShow)
 {
-	setlocale(LC_CTYPE, ""); // Localization	
+	setlocale(LC_CTYPE, ""); // Localization
 	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 	MyRegisterClass(hInstance);
 	HWND hwnd = CreateWindow(appClassName, L"TSF-IME ≤‚ ‘", WS_OVERLAPPEDWINDOW,

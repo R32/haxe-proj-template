@@ -6,7 +6,7 @@ static HRESULT update_itfcandidate(struct tf_uiless *uiless, DWORD elemid)
 {
 	SAFERELEASE(uiless->itfcandidate);
 	if (!uiless->itfuimgr) {
-		return S_FALSE;
+		return E_FAIL;
 	}
 
 	ITfUIElement *itfelement = NULL;
@@ -28,6 +28,8 @@ cleanup:
 static HRESULT STDMETHODCALLTYPE QueryInterface(ITfUIElementSink *sink, REFIID riid, void **ppvobj)
 {
 	if (IsEqualGUID(riid, &IID_IUnknown) || IsEqualGUID(riid, &IID_ITfUIElementSink)) {
+		if (!ppvobj)
+			return E_POINTER;
 		*ppvobj = sink;
 		sink->lpVtbl->AddRef(sink);
 		return S_OK;
@@ -68,8 +70,8 @@ static HRESULT STDMETHODCALLTYPE EndUIElement(ITfUIElementSink *sink, DWORD elem
 
 struct ITfUIElementSinkVtbl elementsink_vtbl = {
 	QueryInterface,
-	uiless_persist_addref,
-	uiless_persist_release,
+	ulpersist_addref_release,
+	ulpersist_addref_release,
 	BeginUIElement,
 	UpdateUIElement,
 	EndUIElement,

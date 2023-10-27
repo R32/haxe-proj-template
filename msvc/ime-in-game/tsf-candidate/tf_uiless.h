@@ -1,8 +1,8 @@
 #pragma once
 #include "stdafx.h"
 
-ULONG STDMETHODCALLTYPE uiless_persist_addref(void *base);
-ULONG STDMETHODCALLTYPE uiless_persist_release(void *base);
+// AddRef or Release
+ULONG STDMETHODCALLTYPE ulpersist_addref_release(void *base);
 
 #define SAFERELEASE(ptr)    do { if (ptr) { (ptr)->lpVtbl->Release(ptr); (ptr) = NULL; } } while(0)
 
@@ -36,15 +36,20 @@ struct dt_candidate {
 };
 struct tf_uiless {
 	HWND hwnd;
-	ITfThreadMgrEx *itfmgr;
-	ITfUIElementMgr *itfuimgr;
-	ITfCandidateListUIElement *itfcandidate;
-	ITfUIElementSink element_sink; // tf_elementsink.c
-	struct {
-		DWORD element;
-	} cookie;
 	DWORD enable;
 	SIZE csize;
+	struct {
+		DWORD element;
+		DWORD langevent;            // deprecated
+	} cookie;
+	// itf_
+	ITfThreadMgrEx *itfmgr;
+	ITfUIElementMgr *itfuimgr;
+	ITfLangBarMgr *itflangmgr;          // deprecated
+	ITfCandidateListUIElement *itfcandidate;
+	// _sink
+	ITfUIElementSink element_sink;      // tf_elementsink.c
+	ITfLangBarEventSink langevent_sink; // deprecated tf_langbareventsink.c
 	struct dt_result result;
 	struct dt_candidate candidate;
 	struct dt_composition composition;
@@ -54,3 +59,7 @@ HRESULT uiless_initialize(struct tf_uiless *uiless, HWND hwnd);
 HRESULT uiless_release(struct tf_uiless *uiless);
 
 void ulflush_candidate(ITfCandidateListUIElement *itform, struct dt_candidate *data);
+void ulflush_composition(struct tf_uiless *uiless, HWND hwnd, WPARAM wparam, LPARAM lparam);
+
+void ullang_enable(struct tf_uiless *uiless); // deprecated
+HRESULT ullang_englishkbl(struct tf_uiless *uiless, DWORD threadid); // deprecated

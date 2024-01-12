@@ -3,7 +3,7 @@ PATH       := $(DEVKITARM)/bin:$(DEVKITPRO)/tools/bin:$(PATH)
 
 
 ##
-TARGET     := bitmap-mode4-pageflip
+TARGET     := bitmap-mode3
 
 # Tools
 PREFIX     := arm-none-eabi-
@@ -20,7 +20,7 @@ INCLUDES   := -I$(DEVKITPRO)/libtonc/include
 GCCFLAGS   :=
 
 # files
-SOURCES    := main.c page_pic.c
+SOURCES    := main.c
 
 OBJDIR     := obj
 OBJS       := $(SOURCES:%.c=$(OBJDIR)/%.o)
@@ -57,4 +57,3 @@ $(OBJDIR)/%.o: %.c
 	@echo Compile $< TO $@
 
 $(OBJDIR)/main.o: main.c
-$(OBJDIR)/page_pic.o: page_pic.c page_pic.h

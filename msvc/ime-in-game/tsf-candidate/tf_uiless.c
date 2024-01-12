@@ -86,11 +86,45 @@ HRESULT uiless_release(struct tf_uiless *uiless)
 	return S_OK;
 }
 
-
-void ulflush_candidate(ITfCandidateListUIElement *itform, struct dt_candidate *data)
+static void ulflush_candidate_immcompt(struct dt_candidate *data, HWND hwnd)
 {
-	if (!data->query || !itform)
+	int index = 0;
+	_BitScanForward(&index, data->query);
+	data->query = 0; // reset
+	HIMC imc = ImmGetContext(hwnd);
+	int bytes = ImmGetCandidateList(imc, index, (CANDIDATELIST *)data->buff, sizeof(data->buff));
+	CANDIDATELIST *ptrcl = (CANDIDATELIST *)data->buff;
+	if (!bytes || ptrcl->dwStyle) {
+		data->count = 0;
 		return;
+	}
+	const int pagesize = ptrcl->dwPageSize;
+	const int pagestart = ptrcl->dwPageStart;
+	data->count = ptrcl->dwCount;
+	data->selection = ptrcl->dwSelection;
+	data->pagestart = pagestart;
+	data->pagestop = min(pagestart + pagesize, data->count);
+	data->pagecurrent = pagestart / pagesize;
+	// CHAR offset => WCHAR offset
+	for (int *wptr = data->offset, *bptr = ptrcl->dwOffset + pagestart;
+		wptr < data->offset + (data->pagestop - pagestart);
+		wptr++, bptr++)
+	{
+		*wptr = (*bptr) / sizeof(data->buff[0]);
+	}
+	trace("immcompt selection : %d, count : %d, pcur : %d, pstart : %d, pstop : %d\n", data->selection, data->count, data->pagecurrent, data->pagestart, data->pagestop);
+}
+
+void ulflush_candidate(struct tf_uiless *uiless, HWND hwnd)
+{
+	ITfCandidateListUIElement *itform = uiless->itfcandidate;
+	struct dt_candidate *data = &uiless->candidate;
+	if (!data->query)
+		return;
+	if (!itform) {
+		ulflush_candidate_immcompt(data, hwnd);
+		return;
+	}
 	data->query = 0;
 	int pagecnt = 0;
 	int *offset = data->offset;
@@ -112,7 +146,7 @@ void ulflush_candidate(ITfCandidateListUIElement *itform, struct dt_candidate *d
 		data->pagestart = data->selection;
 		data->pagestop = min(data->selection + 9, data->count);
 	}
-	// trace("selection : %d, count : %d, pcur : %d, pstart : %d, pstop : %d\n", data->selection, data->count, data->pagecurrent, data->pagestart, data->pagestop);
+	trace("selection : %d, count : %d, pcur : %d, pstart : %d, pstop : %d\n", data->selection, data->count, data->pagecurrent, data->pagestart, data->pagestop);
 	// copy characters 1~9 to buff[offset]
 	BSTR bstr;
 	WCHAR *src;
@@ -129,6 +163,35 @@ void ulflush_candidate(ITfCandidateListUIElement *itform, struct dt_candidate *d
 	}
 	// trace("start : %d, stop : %d, count : %d, page current : %d, page count : %d, selection : %d\n", data->pagestart, data->pagestop, data->count, data->pagecurrent, pagecnt, data->selection);
 	// trace("candidate buffer usage : %.2fKB, total : %dKB\n", (int)(size_t)(dst - data->buff) * sizeof(data->buff[0]) / 1024., (int)sizeof(data->buff) / 1024);
+}
+
+void uiflush_candidate_immnotify(struct tf_uiless *uiless, HWND hwnd, WPARAM wparam, LPARAM lparam)
+{
+	if (uiless->itfcandidate)
+		return;
+	struct dt_candidate *data = &uiless->candidate;
+	switch (wparam) {
+	case IMN_CLOSESTATUSWINDOW:
+	case IMN_OPENSTATUSWINDOW:
+		break;
+	case IMN_CHANGECANDIDATE:
+		data->query = (int)lparam;
+		/* FALL THRU */
+	case IMN_CLOSECANDIDATE:
+		InvalidateRect(hwnd, &data->rect, 0);
+		data->count = 0;
+		break;
+	case IMN_SETCONVERSIONMODE:
+	case IMN_SETSENTENCEMODE:
+	case IMN_SETOPENSTATUS:
+	case IMN_SETCANDIDATEPOS:
+	case IMN_SETCOMPOSITIONFONT:
+	case IMN_SETCOMPOSITIONWINDOW:
+	case IMN_SETSTATUSWINDOWPOS:
+	case IMN_GUIDELINE:
+	default:
+		break;
+	}
 }
 
 static int ulflush_compositioninner(HIMC imc, DWORD kind, WCHAR *buf, int count)

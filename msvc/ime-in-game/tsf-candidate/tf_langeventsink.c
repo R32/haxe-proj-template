@@ -50,7 +50,8 @@ static HRESULT STDMETHODCALLTYPE OnThreadItemChange(ITfLangBarEventSink *sink, D
 
 	BSTR bstr = NULL;
 	hr = profile->lpVtbl->GetLanguageProfileDescription(profile, &clsid, langid, &guid, &bstr);
-	// trace("OnThreadItemChange langid : %d, hr : %d, desc : %ls\n", langid, hr, bstr ? bstr : L"EMPTY");
+	trace("OnThreadItemChange langid : %d, hr : %d, desc : %ls\n", langid, hr, bstr ? bstr : L"EMPTY");
+	//
 	HDC hdc = GetDC(uiless->hwnd);
 	RECT rect = {
 		uiless->candidate.rect.right + 4,
@@ -59,10 +60,13 @@ static HRESULT STDMETHODCALLTYPE OnThreadItemChange(ITfLangBarEventSink *sink, D
 		uiless->candidate.rect.top + uiless->csize.cy,
 	};
 	FillRect(hdc, &rect, (HBRUSH)(COLOR_WINDOWFRAME + 1));
-	if (bstr)
-		TextOut(hdc, rect.left, rect.top, bstr, lstrlen(bstr));
+
+	if (FAILED(hr)) {
+		goto cleanup;
+	}
+	TextOut(hdc, rect.left, rect.top, bstr, lstrlen(bstr));
+	SysFreeString(bstr);
 	ReleaseDC(uiless->hwnd, hdc);
-	if (bstr) SysFreeString(bstr);
 cleanup:
 	SAFERELEASE(profile);
 	return S_OK;

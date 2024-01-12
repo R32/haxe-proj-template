@@ -48,12 +48,11 @@ static void ime_paint_composition(struct tf_uiless *uiless, HWND hwnd, HDC hdc)
 
 static void ime_paint_candidate(struct tf_uiless *uiless, HWND hwnd, HDC hdc)
 {
-	struct ITfCandidateListUIElement *itform = uiless->itfcandidate;
 	struct dt_candidate *data = &uiless->candidate;
 	HBRUSH gray = GetStockObject(COLOR_SCROLLBAR + 1);
 	FillRect(hdc, &data->rect, gray);
 
-	ulflush_candidate(itform, data);
+	ulflush_candidate(uiless, hwnd);
 
 	if (!data->count)
 		return;
@@ -163,6 +162,7 @@ static LRESULT CALLBACK WinProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpara
 	}
 		break;
 	case WM_IME_NOTIFY:
+		uiflush_candidate_immnotify(&uiless, hwnd, wparam, lparam);
 		break;
 	case WM_RBUTTONUP:
 	{

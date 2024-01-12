@@ -30,8 +30,8 @@ struct dt_candidate {
 	int pagestop;
 	int offset[18];  // offset in WCHAR
 	union {
-		WCHAR buff[8 * 1024  / sizeof(WCHAR)]; // 8KB
-		int lists[8 * 1024  / sizeof(int)];
+		WCHAR buff[16 * 1024  / sizeof(WCHAR)]; // 16KB is used to be compatible with "ImmGetCandidateList"
+		int lists[16 * 1024  / sizeof(int)];
 	};
 };
 struct tf_uiless {
@@ -58,7 +58,8 @@ struct tf_uiless {
 HRESULT uiless_initialize(struct tf_uiless *uiless, HWND hwnd);
 HRESULT uiless_release(struct tf_uiless *uiless);
 
-void ulflush_candidate(ITfCandidateListUIElement *itform, struct dt_candidate *data);
+void ulflush_candidate(struct tf_uiless *uiless, HWND hwnd);
+void uiflush_candidate_immnotify(struct tf_uiless *uiless, HWND hwnd, WPARAM wparam, LPARAM lparam);
 void ulflush_composition(struct tf_uiless *uiless, HWND hwnd, WPARAM wparam, LPARAM lparam);
 
 void ullang_enable(struct tf_uiless *uiless); // deprecated

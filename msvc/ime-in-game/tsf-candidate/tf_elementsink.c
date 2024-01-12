@@ -60,7 +60,7 @@ static HRESULT STDMETHODCALLTYPE EndUIElement(ITfUIElementSink *sink, DWORD elem
 {
 	struct tf_uiless *uiless = container_of(sink, struct tf_uiless, element_sink);
 	if (!uiless->candidate.count)
-		return S_OK;	
+		return S_OK;
 	uiless->candidate.count = 0;
 	uiless->candidate.query = 0;
 	InvalidateRect(uiless->hwnd, &uiless->candidate.rect, 0);

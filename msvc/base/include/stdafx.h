@@ -15,8 +15,6 @@
 
 // windows
 #define WIN32_LEAN_AND_MEAN
-// #define _WIN32_IE 0x0600
-
 #include <windows.h>
 
 #pragma comment(linker,"\"/manifestdependency:type='win32' \

@@ -19,7 +19,7 @@ static LRESULT CALLBACK winproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpara
 	case WM_PAINT:
 	{
 		PAINTSTRUCT ps;
-		WCHAR *text = L"ÄãºÃ, ÊÀ½ç!";
+		WCHAR *text = L"hello world!";
 		HDC hdc = BeginPaint(hwnd, &ps);
 		DrawText(hdc, text, (int)wcslen(text), &ps.rcPaint, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 		EndPaint(hwnd, &ps);
@@ -31,7 +31,7 @@ static LRESULT CALLBACK winproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpara
 	return 0;
 }
 
-static int register_class(HINSTANCE instance, WCHAR *title)
+static void register_class(HINSTANCE instance, WCHAR *title)
 {
 	WNDCLASS wc;
 	wc.style = CS_VREDRAW | CS_HREDRAW | CS_OWNDC;
@@ -44,11 +44,7 @@ static int register_class(HINSTANCE instance, WCHAR *title)
 	wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wc.lpszMenuName = NULL;
 	wc.lpszClassName = CLASS_NAME;
-	if (!RegisterClass(&wc)) {
-		MessageBox(NULL, L"This program requires Windows NT!", title, MB_ICONERROR);
-		return 1;
-	}
-	return 0;
+	RegisterClass(&wc);
 }
 
 int CALLBACK WinMain(HINSTANCE instance, HINSTANCE parent, LPSTR cmdline, int cmdshow)
@@ -56,8 +52,7 @@ int CALLBACK WinMain(HINSTANCE instance, HINSTANCE parent, LPSTR cmdline, int cm
 	WCHAR title[16];
 	setlocale(LC_CTYPE, "");
 	LoadStringW(instance, IDWCS_TITLE, title, ARRAYSIZE(title));
-	if (register_class(instance, title))
-		return 1;
+	register_class(instance, title);
 	HWND hwnd = CreateWindow(CLASS_NAME, title, WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0,
 		HWND_DESKTOP, NULL, instance, 0

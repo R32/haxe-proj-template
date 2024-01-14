@@ -31,7 +31,7 @@ static LRESULT CALLBACK winproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpara
 	return 0;
 }
 
-static void register_class(HINSTANCE instance, WCHAR *title)
+static void register_class(HINSTANCE instance)
 {
 	WNDCLASS wc;
 	wc.style = CS_VREDRAW | CS_HREDRAW | CS_OWNDC;
@@ -52,7 +52,7 @@ int CALLBACK WinMain(HINSTANCE instance, HINSTANCE parent, LPSTR cmdline, int cm
 	WCHAR title[16];
 	setlocale(LC_CTYPE, "");
 	LoadStringW(instance, IDWCS_TITLE, title, ARRAYSIZE(title));
-	register_class(instance, title);
+	register_class(instance);
 	HWND hwnd = CreateWindow(CLASS_NAME, title, WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0,
 		HWND_DESKTOP, NULL, instance, 0
